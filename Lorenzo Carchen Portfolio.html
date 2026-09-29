@@ -1,0 +1,644 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Lorenzo Carchen Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single reading column (~70ch) with wide-bleed case studies; the hero shows a real AI answer that cited the brand, because getting cited is the work. */
+:root{
+  --paper:#F2F5F3; --surface:#FFFFFF; --ink:#13201D; --muted:#56655F; --line:#D3DCD8;
+  --accent:#2B55C9; --accent-soft:#E3EAFB; --signal:#C98A0E; --signal-soft:#FBF0D8;
+  --display:"Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body:"Figtree", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --step-0:1rem; --step-1:1.2rem; --step-2:1.55rem; --step-3:2.2rem; --step-4:clamp(2.4rem, 6vw, 4.2rem);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0E1513; --surface:#16201D; --ink:#E4EBE8; --muted:#98A8A2; --line:#2A3834;
+  --accent:#86A3F5; --accent-soft:#1C2745; --signal:#E8B24A; --signal-soft:#2E2512; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --paper:#0E1513; --surface:#16201D; --ink:#E4EBE8; --muted:#98A8A2; --line:#2A3834;
+  --accent:#86A3F5; --accent-soft:#1C2745; --signal:#E8B24A; --signal-soft:#2E2512; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--paper); color:var(--ink); font:400 var(--step-0)/1.6 var(--body); padding-inline:clamp(16px,4vw,40px); padding-block:0 64px}
+.wrap{max-width:1080px; margin-inline:auto}
+.col{max-width:68ch}
+h1,h2,h3{font-family:var(--display); text-wrap:balance; line-height:1.08; margin:0}
+h2{font-size:var(--step-3); font-weight:800; letter-spacing:-.01em}
+h3{font-size:var(--step-2); font-weight:600}
+p{margin:0}
+a{color:var(--accent); text-underline-offset:3px}
+a:focus-visible, button:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px}
+.eyebrow{font:500 .75rem/1.2 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.mono{font-family:var(--mono)}
+
+/* nav */
+nav.top{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--paper); border-bottom:1px solid var(--line); margin-inline:calc(-1 * clamp(16px,4vw,40px)); padding:12px clamp(16px,4vw,40px)}
+nav.top .wrap{display:flex; gap:16px 24px; align-items:center; justify-content:space-between; flex-wrap:wrap}
+nav.top .name{font:700 1rem/1 var(--display)}
+nav.top ul{display:flex; gap:18px; list-style:none; margin:0; padding:0; flex-wrap:wrap}
+nav.top a{color:var(--muted); text-decoration:none; font-size:.9rem}
+nav.top a:hover{color:var(--ink)}
+
+/* hero */
+.hero{display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center; padding-block:64px 56px}
+.hero > *{min-width:0}
+.hero h1{font-size:var(--step-4); font-weight:800; letter-spacing:-.02em}
+.hero h1 em{font-style:normal; color:var(--accent)}
+.hero .lede{font-size:var(--step-1); color:var(--muted); margin-top:20px; max-width:52ch}
+.hero .meta{display:flex; flex-wrap:wrap; gap:8px 20px; margin-top:24px; font-size:.9rem; color:var(--muted)}
+
+.answer{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px 22px; box-shadow:0 18px 40px -28px rgba(19,32,29,.45)}
+.answer .q{display:flex; gap:10px; align-items:center; font:500 .85rem/1.4 var(--mono); color:var(--muted); padding-bottom:14px; border-bottom:1px dashed var(--line)}
+.answer .q::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--accent); flex:none}
+.answer .a{padding-top:14px; font-size:.97rem}
+.answer mark{background:var(--signal-soft); color:var(--ink); padding:0 3px; border-radius:3px; box-shadow:inset 0 -2px 0 var(--signal)}
+.answer .src{display:flex; gap:6px; flex-wrap:wrap; margin-top:14px}
+.chip{font:500 .72rem/1 var(--mono); padding:6px 8px; border-radius:999px; border:1px solid var(--line); color:var(--muted)}
+.chip.on{border-color:var(--accent); color:var(--accent); background:var(--accent-soft)}
+.answer .cap{margin-top:14px; font-size:.8rem; color:var(--muted)}
+
+/* strip */
+.strip{display:grid; grid-template-columns:repeat(4,1fr); border-block:1px solid var(--line)}
+.strip div{padding:20px 16px 18px 0}
+.strip div + div{padding-left:16px; border-left:1px solid var(--line)}
+.strip b{display:block; font:800 var(--step-3)/1 var(--display); font-variant-numeric:tabular-nums}
+.strip span{font-size:.85rem; color:var(--muted)}
+
+section{padding-block:72px 0}
+.sec-head{display:flex; flex-direction:column; gap:10px; margin-bottom:32px}
+.sec-head p{color:var(--muted); max-width:62ch}
+
+/* case study */
+.case{border-top:2px solid var(--ink); padding-top:24px; margin-bottom:64px}
+.case-top{display:grid; grid-template-columns:220px 1fr; gap:32px}
+.case-top > *{min-width:0}
+.facts{display:flex; flex-direction:column; gap:14px; font-size:.88rem}
+.facts dt{font:500 .7rem/1.2 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.facts dd{margin:3px 0 0}
+.case h3{font-size:var(--step-3); font-weight:800; letter-spacing:-.01em}
+.case .problem{margin-top:14px; font-size:var(--step-1); color:var(--muted); max-width:62ch}
+.work{display:grid; grid-template-columns:repeat(2,1fr); gap:28px 36px; margin-top:32px}
+.work > div{min-width:0}
+.work h4{font:600 1rem/1.3 var(--body); margin:0 0 6px; display:flex; gap:10px; align-items:baseline}
+.work h4 .tag{font:500 .68rem/1 var(--mono); color:var(--accent); letter-spacing:.06em; text-transform:uppercase}
+.work p{color:var(--muted); font-size:.95rem}
+.learned{margin-top:28px; padding:18px 20px; background:var(--signal-soft); border-radius:10px; font-size:.95rem}
+.learned b{font-family:var(--display)}
+
+/* chart */
+.chart{margin-top:32px; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px}
+.chart-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:28px}
+.chart-grid > div{min-width:0}
+.bars{display:flex; flex-direction:column; gap:10px; margin-top:12px}
+.bar-row{display:grid; grid-template-columns:62px 1fr 48px; gap:10px; align-items:center; font-size:.82rem}
+.bar-row .lbl{font-family:var(--mono); color:var(--muted)}
+.track{height:14px; background:var(--paper); border-radius:3px; position:relative; overflow:hidden}
+.fill{position:absolute; inset:0 auto 0 0; background:var(--muted); border-radius:3px; opacity:.55}
+.fill.after{background:var(--accent); opacity:1}
+.bar-row .val{font:500 .85rem var(--mono); font-variant-numeric:tabular-nums; text-align:right}
+.chart .note{margin-top:18px; font-size:.8rem; color:var(--muted); max-width:80ch}
+.chart h5{font:600 .95rem/1.3 var(--body); margin:0}
+.chart .sub{font-size:.8rem; color:var(--muted)}
+
+/* strategy + lifecycle panels */
+.pair{display:grid; grid-template-columns:repeat(2,1fr); gap:24px}
+.pair > *{min-width:0}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:26px; display:flex; flex-direction:column; gap:16px}
+.panel h3{font-size:1.45rem; font-weight:800}
+.panel > p{color:var(--muted); font-size:.96rem}
+.panel .small, .small{font-size:.86rem; color:var(--muted)}
+.minihead{font:600 .85rem/1.3 var(--body); margin-bottom:-6px}
+.stages{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; counter-reset:s}
+.stages li{display:grid; grid-template-columns:150px 1fr; gap:12px; padding:9px 0; border-top:1px solid var(--line); font-size:.9rem; counter-increment:s}
+.stages li b{font:600 .86rem/1.4 var(--body)}
+.stages li b::before{content:counter(s) " "; font-family:var(--mono); color:var(--accent); font-weight:500}
+.stages li span{color:var(--muted)}
+.targets{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; border-top:1px dashed var(--line); padding-top:14px}
+.targets b{display:block; font:800 1.5rem/1 var(--display); font-variant-numeric:tabular-nums}
+.targets span{font-size:.78rem; color:var(--muted)}
+.kv{margin:0; display:flex; flex-direction:column}
+.kv > div{display:grid; grid-template-columns:100px 1fr; gap:12px; padding:9px 0; border-top:1px solid var(--line); font-size:.9rem}
+.kv dt{font:500 .7rem/1.6 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.kv dd{margin:0}
+.flow{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; position:relative}
+.flow li{display:grid; grid-template-columns:64px 1fr; gap:14px; position:relative; padding-bottom:14px}
+.flow li::before{content:""; position:absolute; left:77px; top:18px; bottom:0; width:2px; background:var(--line)}
+.flow li:last-child::before{display:none}
+.flow li > div{padding-left:16px; position:relative; min-width:0}
+.flow li > div::before{content:""; position:absolute; left:-5px; top:6px; width:10px; height:10px; border-radius:50%; background:var(--accent)}
+.flow .t{font:500 .74rem/1.9 var(--mono); color:var(--muted); text-align:right; font-variant-numeric:tabular-nums}
+.flow b{display:block; font-size:.92rem}
+.flow small{display:block; color:var(--muted); font-size:.82rem}
+.branches{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.branches > div{border:1px solid var(--line); border-radius:8px; padding:8px 10px; min-width:0}
+.branches em{display:block; font:500 .68rem/1.4 var(--mono); font-style:normal; color:var(--accent); text-transform:uppercase; letter-spacing:.05em}
+.funnel{display:flex; flex-direction:column; gap:8px}
+.frow{display:grid; grid-template-columns:118px 1fr 46px; gap:10px; align-items:center; font-size:.84rem}
+.frow span{color:var(--muted)}
+.frow b{font:500 .84rem var(--mono); text-align:right; font-variant-numeric:tabular-nums}
+.fill.warn{background:var(--signal); opacity:1}
+
+/* smaller projects */
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:20px}
+.grid3 > article{min-width:0; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; flex-direction:column; gap:10px}
+.grid3 h3{font-size:1.25rem}
+.grid3 p{font-size:.93rem; color:var(--muted)}
+.grid3 ul{margin:0; padding-left:18px; font-size:.9rem; display:flex; flex-direction:column; gap:4px}
+.grid3 .ctx{margin-top:auto; padding-top:8px; font:500 .72rem/1.3 var(--mono); color:var(--muted); border-top:1px solid var(--line)}
+
+blockquote{margin:0; padding:28px 0; border-block:1px solid var(--line); display:grid; grid-template-columns:auto 1fr; gap:20px}
+blockquote .mark{font:800 4rem/0.8 var(--display); color:var(--accent)}
+blockquote p{font:600 var(--step-2)/1.3 var(--display); max-width:40ch}
+.inline-quote{margin-top:28px}
+.inline-quote p{font-size:var(--step-1)}
+blockquote footer{margin-top:14px; font-size:.88rem; color:var(--muted)}
+
+/* skills */
+.skills{display:grid; grid-template-columns:repeat(3,1fr); gap:28px}
+.skills > div{min-width:0}
+.skills h3{font-size:1.1rem; margin-bottom:10px}
+.tags{display:flex; flex-wrap:wrap; gap:6px}
+.tags span{font-size:.85rem; padding:5px 10px; border-radius:6px; background:var(--surface); border:1px solid var(--line)}
+
+.timeline{display:flex; flex-direction:column}
+.tl{display:grid; grid-template-columns:150px 1fr; gap:24px; padding-block:18px; border-top:1px solid var(--line)}
+.tl > *{min-width:0}
+.tl .when{font:500 .82rem/1.5 var(--mono); color:var(--muted); font-variant-numeric:tabular-nums}
+.tl b{font-weight:600}
+.tl p{color:var(--muted); font-size:.93rem; margin-top:4px}
+
+.contact{margin-top:80px; padding:36px; border-radius:16px; background:var(--ink); color:var(--paper); display:grid; grid-template-columns:1fr auto; gap:24px; align-items:end}
+.contact > *{min-width:0}
+.contact h2{color:var(--paper)}
+.contact p{color:var(--paper); opacity:.75; margin-top:10px; max-width:52ch}
+.contact .lines{display:flex; flex-direction:column; gap:8px; font-family:var(--mono); font-size:.92rem}
+.contact .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.contact a{color:var(--paper)}
+.contact button{font:500 .72rem var(--mono); background:transparent; color:var(--paper); border:1px solid currentColor; border-radius:999px; padding:4px 10px; cursor:pointer; opacity:.8}
+.contact button:hover{opacity:1}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr; padding-block:40px}
+  .case-top{grid-template-columns:1fr; gap:20px}
+  .facts{flex-direction:row; flex-wrap:wrap; gap:14px 24px}
+  .work,.chart-grid,.grid3,.skills,.pair{grid-template-columns:1fr}
+  .panel{padding:20px}
+  .stages li{grid-template-columns:1fr; gap:2px}
+  .branches{grid-template-columns:1fr}
+  .flow li{grid-template-columns:52px 1fr}
+  .flow li::before{left:65px}
+  .strip{grid-template-columns:repeat(2,1fr)}
+  .strip div:nth-child(3){padding-left:0; border-left:0}
+  .strip div:nth-child(n+3){border-top:1px solid var(--line)}
+  .tl{grid-template-columns:1fr; gap:4px}
+  .contact{grid-template-columns:1fr; padding:26px}
+}
+@media (max-width:560px){ nav.top ul{gap:12px} nav.top ul li:nth-child(n+4){display:none} }
+@media (prefers-reduced-motion:no-preference){
+  .fill{transition:width .9s cubic-bezier(.2,.7,.2,1)}
+}
+</style>
+
+<nav class="top" aria-label="Sections">
+  <div class="wrap">
+    <span class="name">Lorenzo Carchen</span>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#strategy">Campaigns</a></li>
+      <li><a href="#more">Projects</a></li>
+      <li><a href="#skills">Toolkit</a></li>
+      <li><a href="#path">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <header class="hero">
+    <div>
+      <p class="eyebrow">SEO &amp; Content Marketer · AEO/GEO · B2B Growth</p>
+      <h1 style="margin-top:14px">I get brands <em>cited</em> in the answers buyers read.</h1>
+      <p class="lede">Search is moving from ten blue links to one written answer from ChatGPT, Perplexity or Google AI Mode. I measure whether a brand shows up in those answers, then do the content, review and community work that moves the number.</p>
+      <div class="meta">
+        <span>Based in Caravaggio (BG), Italy</span>
+        <span>EU citizen · open to relocation and remote</span>
+        <span>Italian (native) · English (C1)</span>
+      </div>
+    </div>
+
+    <figure class="answer" style="margin:0" aria-label="Example of an AI answer citing Sirelo">
+      <div class="q">best lead generation platforms for moving companies</div>
+      <div class="a">…a dedicated section headed <mark>“Sirelo is the best specialist marketplace”</mark>, placed third of eight in the comparison table.</div>
+      <div class="src">
+        <span class="chip">ChatGPT</span>
+        <span class="chip on">Perplexity</span>
+        <span class="chip">Google AI Mode</span>
+      </div>
+      <figcaption class="cap">Week 7 of the tracking programme at TriGlobal: the first time Perplexity cited the brand on a core B2B query without the brand name in the prompt.</figcaption>
+    </figure>
+  </header>
+
+  <div class="strip" role="list">
+    <div role="listitem"><b>18.9→25.4%</b><span>AI citation rate, like-for-like, Weeks 4 to 7</span></div>
+    <div role="listitem"><b>181</b><span>keywords mapped across 7 markets</span></div>
+    <div role="listitem"><b>~320</b><span>contacts cleaned and migrated to HubSpot</span></div>
+    <div role="listitem"><b>120%</b><span>of IT revenue target in retail sales</span></div>
+  </div>
+
+  <section id="work">
+    <div class="sec-head">
+      <p class="eyebrow">Selected work</p>
+      <h2>Case studies</h2>
+    </div>
+
+    <!-- CASE 1 -->
+    <article class="case">
+      <div class="case-top">
+        <dl class="facts">
+          <div><dt>Company</dt><dd>TriGlobal B.V. (Sirelo), Dordrecht, NL</dd></div>
+          <div><dt>Role</dt><dd>B2B Marketing Intern, SEO, AEO/GEO &amp; Content</dd></div>
+          <div><dt>When</dt><dd class="mono">Jun – Sep 2026</dd></div>
+          <div><dt>Tools</dt><dd>Search Console, GA4, Keyword Planner, Semrush, Ahrefs, Ubersuggest, Figma, Claude Code</dd></div>
+          <div><dt>Evaluation</dt><dd><span class="mono">27/30</span> overall, top grade (A, excellent) on learning outcomes</dd></div>
+        </dl>
+        <div>
+          <h3>Building an AI-search visibility programme from zero</h3>
+          <p class="problem">Sirelo connects people planning an international move with moving companies in 60+ countries. It had twenty years of data and real industry standing, yet AI assistants only mentioned it when the user already typed its name. Nobody in the company was measuring this.</p>
+        </div>
+      </div>
+
+      <div class="work">
+        <div>
+          <h4><span class="tag">Measure</span>A weekly citation test</h4>
+          <p>30 buyer queries in 5 intent clusters, run every week on ChatGPT, Perplexity and Google AI Mode, with the sentiment of every answer logged. I revised the method twice as the data came in and kept failed weeks in the log as failures.</p>
+        </div>
+        <div>
+          <h4><span class="tag">Research</span>A demand map</h4>
+          <p>181 keywords across 7 markets, classified by intent and checked against Search Console. It exposed pages that ranked but didn't answer, like a UK calculator query with 41,500 impressions and 3 clicks. Those gaps set the content priorities.</p>
+        </div>
+        <div>
+          <h4><span class="tag">Create</span>Answer-first B2B pages</h4>
+          <p>Pages for moving companies on lead sources, lead pricing, reviews and UK coverage. Each one opens with the answer in two or three sentences, uses questions as headings and ends with one next step, so an AI engine can lift it cleanly. I then adapted them into a LinkedIn series.</p>
+        </div>
+        <div>
+          <h4><span class="tag">Reputation</span>A Trustpilot programme</h4>
+          <p>A KPI framework, a census of all 52 reviews sorted into 7 complaint classes, response templates and a 7-week invitation schedule. It brought in the first 5-star partner review.</p>
+        </div>
+        <div>
+          <h4><span class="tag">Community</span>Reddit, done openly</h4>
+          <p>I read about 1,900 posts before writing a word, then joined conversations in 4 subreddits as a disclosed brand voice. No comment was removed, and one turned into a live sales conversation.</p>
+        </div>
+        <div>
+          <h4><span class="tag">Lifecycle</span>A 9-email onboarding flow</h4>
+          <p>For moving companies earning the “Sirelo Verified” label, with branches for partners who never start or drop out halfway. I also recommended holding the launch email until partners could actually see their label.</p>
+        </div>
+      </div>
+
+      <div class="chart" aria-label="Citation rate results">
+        <div class="chart-grid">
+          <div>
+            <h5>Full 30-query set</h5>
+            <p class="sub">All three engines combined</p>
+            <div class="bars">
+              <div class="bar-row"><span class="lbl">Week 4</span><div class="track"><div class="fill" style="width:18.9%"></div></div><span class="val">18.9%</span></div>
+              <div class="bar-row"><span class="lbl">Week 7</span><div class="track"><div class="fill after" style="width:25.4%"></div></div><span class="val">25.4%</span></div>
+            </div>
+          </div>
+          <div>
+            <h5>10-query core set</h5>
+            <p class="sub">All three engines combined</p>
+            <div class="bars">
+              <div class="bar-row"><span class="lbl">Week 3</span><div class="track"><div class="fill" style="width:23.3%"></div></div><span class="val">23.3%</span></div>
+              <div class="bar-row"><span class="lbl">Week 6</span><div class="track"><div class="fill after" style="width:36.7%"></div></div><span class="val">36.7%</span></div>
+            </div>
+          </div>
+          <div>
+            <h5>Generic, non-brand queries cited</h5>
+            <p class="sub">Out of 7 tracked</p>
+            <div class="bars">
+              <div class="bar-row"><span class="lbl">Baseline</span><div class="track"><div class="fill" style="width:0%"></div></div><span class="val">0</span></div>
+              <div class="bar-row"><span class="lbl">Week 7</span><div class="track"><div class="fill after" style="width:42.9%"></div></div><span class="val">3</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="note">Bars run from 0 to 100%. The two query sets are kept apart on purpose: the 30-query set includes queries the brand wasn't winning yet, so its rate is lower and the two shouldn't be compared directly.</p>
+      </div>
+
+      <p class="learned"><b>What I took from it.</b> The biggest lever wasn't the company's own content. It was which sources each engine chose to read. Google AI Mode leaned on Sirelo's own sites, ChatGPT leaned on review platforms, and the answers about the brand changed accordingly. That shifted the plan toward reviews and third-party presence.</p>
+
+      <blockquote class="inline-quote">
+        <span class="mark" aria-hidden="true">“</span>
+        <div>
+          <p>He has consistently shown his decisions and recommended actions to be evidence-driven rather than relying on assumption, which was fundamental in the success he has shown in this role.</p>
+          <footer>Company tutor, TriGlobal B.V. · internship evaluation, August 2026</footer>
+        </div>
+      </blockquote>
+    </article>
+
+    <!-- CASE 2 -->
+    <article class="case">
+      <div class="case-top">
+        <dl class="facts">
+          <div><dt>Organisation</dt><dd>Center of Expertise for Water Technology (CEW), Leeuwarden, NL</dd></div>
+          <div><dt>Role</dt><dd>Marketing &amp; CRM Intern</dd></div>
+          <div><dt>When</dt><dd class="mono">Mar – Aug 2025</dd></div>
+          <div><dt>Tools</dt><dd>HubSpot, Asana, Zapier, Skyvia, Gamma, Lovable</dd></div>
+        </dl>
+        <div>
+          <h3>From a student project to running the CRM</h3>
+          <p class="problem">CEW connects water-technology research with industry. It kept its relationships in spreadsheets and wanted to reach specific sectors more effectively. I started on a student consultancy brief and was then offered a summer internship to build the system myself.</p>
+        </div>
+      </div>
+      <div class="work">
+        <div>
+          <h4><span class="tag">Strategy</span>Audience engagement plan</h4>
+          <p>Segmentation, channel and competitor research, and separate communication plans for dairy, pharma, food processing, metallurgy and agrifood, with a LinkedIn and trade-press campaign.</p>
+        </div>
+        <div>
+          <h4><span class="tag">CRM</span>Spreadsheets to HubSpot in three weeks</h4>
+          <p>A sprint from 8 to 24 July 2025 on a budget of €84 a month. I cleaned and migrated about 320 contacts, built a 5-stage deal pipeline, and connected HubSpot to Asana through Zapier so a closed deal creates a live project, a folder and a note to management.</p>
+        </div>
+        <div>
+          <h4><span class="tag">Email</span>Nurture sequences</h4>
+          <p>Designed the marketing email sequences and lead-scoring rules for the new CRM, and tested how well the tools and their AI features handled Dutch as well as English.</p>
+        </div>
+        <div>
+          <h4><span class="tag">Data</span>Rules that hold up</h4>
+          <p>Wrote the GDPR retention and access rules, set up Skyvia backups, then tested recovery by simulating a total data loss. Each decision went to management as a written report with an FAQ.</p>
+        </div>
+        <div>
+          <h4><span class="tag">Automation</span>Lead status that updates itself</h4>
+          <p>Zapier rules that move a lead's HubSpot status when something real happens: an outreach task closed in Asana, a reply in Outlook, a proposal saved to OneDrive. Fewer forgotten leads, and a pipeline that matches reality.</p>
+        </div>
+        <div>
+          <h4><span class="tag">Events</span>Interactive booth tools</h4>
+          <p>A water-drops mini game that ends with an invitation to the booth, a calculator that shows a company its water savings and payback time, and a map of CEW projects in the Netherlands. Plus Droplet Dash, a longer serious game prototyped with an AI app builder and handed over with a report on its known bugs and fixes.</p>
+        </div>
+      </div>
+    </article>
+
+    <blockquote>
+      <span class="mark" aria-hidden="true">“</span>
+      <div>
+        <p>In just six weeks, Lorenzo delivered more quality output than most students achieve in six months.</p>
+        <footer>Letter of recommendation from NHL Stenden (teacher and coach, entrepreneurship) and CEW (advisor, marketing and communication)</footer>
+      </div>
+    </blockquote>
+  </section>
+
+  <section id="strategy">
+    <div class="sec-head">
+      <p class="eyebrow">Strategy &amp; campaigns</p>
+      <h2>Launch and brand plans</h2>
+      <p>Two team projects for real organisations, built on primary research. The numbers below are the targets we planned against, not measured results.</p>
+    </div>
+    <div class="pair">
+      <article class="panel">
+        <p class="eyebrow">Launch campaign · IWCN · NHL Stenden 2025</p>
+        <h3>LYNK: getting international students to one app</h3>
+        <p>International Welcome Center North was launching LYNK, an app for discovering events in Friesland. About 2,000 international students were finding things to do through scattered Instagram pages and muted WhatsApp groups. We had €1,000 and 30 days.</p>
+        <ol class="stages" aria-label="Campaign stages">
+          <li><b>Awareness</b><span>Reels, 4 micro-creators, A1 posters with QR codes</span></li>
+          <li><b>Comprehension</b><span>Short visual explainers of what the app does</span></li>
+          <li><b>Conviction</b><span>Peer testimonials and partner communities</span></li>
+          <li><b>Action</b><span>“First 100 users” challenge run by 8 to 10 ambassadors</span></li>
+          <li><b>Loyalty</b><span>Badges, user advisory board, local business perks</span></li>
+        </ol>
+        <p class="small">A survey and interviews produced one persona, Sophia, a 21-year-old exchange student who mutes noisy group chats and goes where her friends go. Every channel choice was tested against her. Launch timed to Study Start Week.</p>
+        <div class="targets">
+          <div><b>750</b><span>downloads target</span></div>
+          <div><b>67%</b><span>profile completion target</span></div>
+          <div><b>€1.33</b><span>projected cost per acquisition</span></div>
+        </div>
+      </article>
+      <article class="panel">
+        <p class="eyebrow">Rebrand · Erbozeta · Team project</p>
+        <h3>Erbozeta: from pharmacy shelf to wellness brand</h3>
+        <p>A San Marino company with close to 40 years in pharmaceuticals sold its natural dietetic line through medical channels, with a clinical look to match. We repositioned it for health-conscious 25 to 45-year-olds shopping in herbalists and nutrition stores.</p>
+        <dl class="kv">
+          <div><dt>Positioning</dt><dd>“Nourish your life, naturally”</dd></div>
+          <div><dt>Product</dt><dd>Three themed bundles priced €61 to €116, saving 7% to 20%</dd></div>
+          <div><dt>Retail</dt><dd>Three premium partners chosen for fit, with in-store staff training</dd></div>
+          <div><dt>Social</dt><dd>Instagram 4 to 5 posts a week across five content pillars; Facebook for Q&amp;A and community</dd></div>
+          <div><dt>Identity</dt><dd>New logo, botanical packaging, earth-tone palette</dd></div>
+          <div><dt>Roadmap</dt><dd>9 months, from identity to coordinated retail launch</dd></div>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+  <section id="lifecycle">
+    <div class="sec-head">
+      <p class="eyebrow">Email &amp; analytics · UPSA Salamanca, 2026</p>
+      <h2>Retention and funnel diagnosis</h2>
+      <p>Two course briefs from International Digital Marketing. Hawkstone is an unofficial exercise on a real brand. Natura Global is a fictional brand with a supplied dataset.</p>
+    </div>
+    <div class="pair">
+      <article class="panel">
+        <h3>Hawkstone post-purchase flow</h3>
+        <p>Five emails that turn a first online order of this British lager into a repeat buyer or a paying member, written in the brand's dry, farm-first voice.</p>
+        <ol class="flow" aria-label="Email flow">
+          <li><span class="t">Day 0</span><div><b>Order confirmed</b><small>Tracking link, brand voice from the first line</small></div></li>
+          <li><span class="t">+1 day</span><div><b>The story behind the pint</b><small>Farm to fridge. No call to action on purpose</small></div></li>
+          <li><span class="t">+3 days</span><div><b>“Was it worth the wait?”</b><small>Review request with a Trustpilot link</small></div></li>
+          <li class="split"><span class="t">+7 days</span><div class="branches">
+            <div><em>Opened email 3</em><b>Membership invite</b><small>15% off monthly cases</small></div>
+            <div><em>Didn't open</em><b>Gentle nudge</b><small>£5 off the next case</small></div>
+          </div></li>
+          <li><span class="t">+14 days</span><div><b>Next round's on us</b><small>Personal reorder plus a limited edition</small></div></li>
+        </ol>
+      </article>
+      <article class="panel">
+        <h3>Natura Global: traffic that doesn't buy</h3>
+        <p>A sustainable skincare brand expanding across Europe had 21,000 campaign sessions and a 0.8% conversion rate. I mapped the data to the funnel to find where people dropped.</p>
+        <div class="funnel">
+          <div class="frow"><span>Bounce rate</span><div class="track"><div class="fill warn" style="width:72.4%"></div></div><b>72.4%</b></div>
+          <div class="frow"><span>Cart abandonment</span><div class="track"><div class="fill warn" style="width:64.9%"></div></div><b>64.9%</b></div>
+        </div>
+        <p class="minihead">Conversion rate by channel</p>
+        <div class="funnel">
+          <div class="frow"><span>Organic search</span><div class="track"><div class="fill after" style="width:91.7%"></div></div><b>1.1%</b></div>
+          <div class="frow"><span>Paid search</span><div class="track"><div class="fill after" style="width:66.7%"></div></div><b>0.8%</b></div>
+          <div class="frow"><span>Social</span><div class="track"><div class="fill" style="width:41.7%"></div></div><b>0.5%</b></div>
+          <div class="frow"><span>Display</span><div class="track"><div class="fill" style="width:16.7%"></div></div><b>0.2%</b></div>
+        </div>
+        <p class="small">Scale runs to 1.2%. The problem was conversion, not traffic: TikTok had the best click-through (4.1%) and the lowest conversion of the social platforms (0.3%). I recommended faster mobile pages, guest checkout with shipping costs shown up front, abandoned-cart emails, local content for Germany, Spain and France, and moving budget away from display.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="more">
+    <div class="sec-head">
+      <p class="eyebrow">Client, studio and course projects</p>
+      <h2>More work</h2>
+      <p>Paid social for a local shop, an outbound system for my own studio, competitive research, CRM design, and go-to-market plans from my semesters in Bergamo, Valencia and Salamanca.</p>
+    </div>
+    <div class="grid3">
+      <article>
+        <p class="eyebrow">Social &amp; paid · Client</p>
+        <h3>Allegri Bimbi</h3>
+        <p>An operating guide for a children's clothing shop in Treviglio that wanted more local reach without an agency.</p>
+        <ul>
+          <li>Meta Ads setup at about €10/day, 7 to 14-day test cycles</li>
+          <li>Instagram keywords, bio rewrite and a 5-tag hashtag mix</li>
+          <li>Linktree and in-store QR codes tied to the ads</li>
+          <li>TikTok cross-posting formats</li>
+        </ul>
+        <p class="ctx">Nomads · 2026 · written in Italian</p>
+      </article>
+      <article>
+        <p class="eyebrow">Outbound · Own studio</p>
+        <h3>Nomads Outreach OS</h3>
+        <p>A client acquisition system for Nomads, the marketing and AI consulting studio I run with a partner. With no case studies yet, the offer leads with proof instead of claims.</p>
+        <ul>
+          <li>Free 4 to 6-minute recorded teardown before any ask</li>
+          <li>4 segments, 4 email flows, 15 bilingual emails</li>
+          <li>Alarm thresholds: bounce under 2%, reply rate at least 8%</li>
+        </ul>
+        <p class="ctx">Nomads · 2026 · built in Notion</p>
+      </article>
+      <article>
+        <p class="eyebrow">Market entry · Course</p>
+        <h3>Buitoni in China</h3>
+        <p>A digital-first entry plan for an Italian food brand targeting urban families aged 25 to 45 in tier 1 and 2 cities.</p>
+        <ul>
+          <li>WeChat, Douyin and Xiaohongshu roles defined</li>
+          <li>Tmall Global and JD.com as launch partners</li>
+          <li>Budget split 45% digital, 30% creators, 25% sampling</li>
+        </ul>
+        <p class="ctx">ITS JobsAcademy · International Markets</p>
+      </article>
+      <article>
+        <p class="eyebrow">Go-to-market · Course</p>
+        <h3>SkinSync</h3>
+        <p>A team startup concept for an AI smart mirror that helps people check their skin at home and see a dermatologist sooner.</p>
+        <ul>
+          <li>Two buyer personas from user interviews</li>
+          <li>Value proposition canvases and a StoryBrand script</li>
+          <li>TAM, SAM, SOM sizing and five actionable metrics</li>
+        </ul>
+        <p class="ctx">EDEM Business School, Valencia</p>
+      </article>
+      <article>
+        <p class="eyebrow">Positioning · Course</p>
+        <h3>Waste-E</h3>
+        <p>A venture for the Babson Challenge. Spain generates 750,000 tons of e-waste a year and treats only about 22% through authorised plants, while 28% of Spaniards aren't sure what e-waste is.</p>
+        <ul>
+          <li>Systems map of why compliance loses money</li>
+          <li>Smart collection bins plus an app that shows each user's impact</li>
+          <li>Blue Ocean value curve, personas, pitch video</li>
+        </ul>
+        <p class="ctx">EDEM Business School, Valencia</p>
+      </article>
+      <article>
+        <p class="eyebrow">Competitive analysis · Work</p>
+        <h3>Sirelo competitor audit</h3>
+        <p>Consumer and B2B content audits plus a review-platform landscape study, run alongside the tracking programme.</p>
+        <ul>
+          <li>Spotted a UK rival whose rebrand left its leads pages returning 404s: an open window for new content</li>
+          <li>Benchmarked guide depth: ~1,700 words and no calculator against ~3,000 with one</li>
+          <li>Compared Semrush, Ahrefs and Mangools against written requirements</li>
+        </ul>
+        <p class="ctx">TriGlobal · July 2026</p>
+      </article>
+      <article>
+        <p class="eyebrow">CRM &amp; funnel · Course</p>
+        <h3>A gym for people over 40</h3>
+        <p>A CRM and funnel for a Piacenza gym whose members start out full of guilt and low on motivation. The aim: turn strangers into regulars, then ambassadors.</p>
+        <ul>
+          <li>CRM fields for goals, emotional barriers and a 1 to 10 motivation score</li>
+          <li>TOFU, MOFU, BOFU content on Meta Ads and Google Ads</li>
+          <li>Cialdini's principles applied to follow-ups and check-ins</li>
+        </ul>
+        <p class="ctx">ITS JobsAcademy · CRM · written in Italian</p>
+      </article>
+      <article>
+        <p class="eyebrow">Startup pitch · Course</p>
+        <h3>Scratch</h3>
+        <p>A Bluetooth smart pen that turns handwriting and voice into searchable, AI-summarised notes. I led the team of four as CEO.</p>
+        <ul>
+          <li>Segments: students, creative professionals, knowledge workers</li>
+          <li>Pen at €99, education and enterprise volume pricing</li>
+          <li>Subscriptions from €4.99 a month for sync and AI features</li>
+        </ul>
+        <p class="ctx">EDEM Business School · Entrepreneurship</p>
+      </article>
+      <article>
+        <p class="eyebrow">Accessibility · Course</p>
+        <h3>FinTrack accessibility plan</h3>
+        <p>A one-page plan pitching WCAG 2.1 AA as a growth move for a fintech app, written for a CFO.</p>
+        <ul>
+          <li>Captions, alt text, plain language and 4.5:1 contrast in every campaign</li>
+          <li>$50,000 budget split across audit, tooling, training and sprints</li>
+          <li>Three 12-month metrics, including conversion of assistive-tech users</li>
+        </ul>
+        <p class="ctx">UPSA Salamanca · Digital Accessibility</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head">
+      <p class="eyebrow">Toolkit</p>
+      <h2>What I work with</h2>
+    </div>
+    <div class="skills">
+      <div>
+        <h3>Marketing</h3>
+        <div class="tags"><span>SEO &amp; keyword research</span><span>AEO / GEO</span><span>B2B content &amp; copywriting</span><span>Review management</span><span>Community marketing</span><span>Email nurture flows</span><span>Competitor audits</span><span>KPI frameworks</span><span>Meta Ads</span></div>
+      </div>
+      <div>
+        <h3>Tools</h3>
+        <div class="tags"><span>Google Search Console</span><span>GA4</span><span>Keyword Planner</span><span>Semrush</span><span>Ahrefs</span><span>Ubersuggest</span><span>Meta Ads Manager</span><span>HubSpot</span><span>Asana</span><span>Zapier</span><span>Notion</span><span>Figma</span><span>Canva</span><span>Excel</span><span>ChatGPT, Claude, Perplexity</span><span>Claude Code, Lovable</span></div>
+      </div>
+      <div>
+        <h3>Certifications</h3>
+        <div class="tags"><span>HubSpot: AEO Fundamentals (2026)</span><span>Google Ads Display (2026)</span><span>HubSpot: Inbound Marketing</span><span>HubSpot: Social Media Marketing</span><span>Semrush: AI-Powered Marketer</span><span>Semrush: Local SEO Essentials</span><span>Canva: Marketing with Canva</span><span>Canva: Campaigns at Scale</span><span>Zapier: Automate Your Work</span><span>Anthropic: AI Fluency, Claude Code 101</span><span>Databricks: Generative AI Fundamentals</span><span>Elements of AI, University of Helsinki</span><span>IBM: Getting Started with Generative AI</span><span>TOEFL iBT 109/120</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="path">
+    <div class="sec-head">
+      <p class="eyebrow">Experience &amp; education</p>
+      <h2>How I got here</h2>
+      <p>Four years selling technology on a shop floor taught me to judge marketing by what it does for the pipeline.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl"><span class="when">2026</span><div><b>B2B Marketing Intern · TriGlobal (Sirelo)</b><p>SEO, AEO/GEO and content for an international moving lead-generation platform.</p></div></div>
+      <div class="tl"><span class="when">2026 – now</span><div><b>Bachelor in Business Management · UniNettuno University</b><p>In progress.</p></div></div>
+      <div class="tl"><span class="when">2025</span><div><b>Marketing &amp; CRM Intern · CEW, Leeuwarden</b><p>Client project, then summer internship.</p></div></div>
+      <div class="tl"><span class="when">2024 – 2026</span><div><b>Higher Technical Diploma, International Marketing Management · ITS JobsAcademy</b><p>Study semesters at NHL Stenden (Leeuwarden), EDEM Business School (Valencia) and UPSA (Salamanca).</p></div></div>
+      <div class="tl"><span class="when">2020 – 2024</span><div><b>Sales Manager, IT Department · Trony, Treviglio</b><p>120% of the IT revenue target over two years. Built the assortment with Apple, Lenovo, Asus, HP and Trust.</p></div></div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div>
+      <h2>Let's talk.</h2>
+      <p>I'm looking for SEO, content and AI-search roles in B2B, in Italy, across Europe or remote.</p>
+    </div>
+    <div class="lines">
+      <div class="row"><span id="mail">lcarchen@icloud.com</span><button type="button" id="copy-mail" data-target="mail">Copy</button></div>
+      <div class="row"><a href="https://www.linkedin.com/in/lorenzo-carchen" target="_blank" rel="noopener">linkedin.com/in/lorenzo-carchen</a></div>
+    </div>
+  </section>
+</main>
+
+<script>
+document.querySelectorAll('.contact button[data-target]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var el = document.getElementById(btn.dataset.target);
+    var text = el.textContent.trim();
+    function selectIt(){ var r=document.createRange(); r.selectNodeContents(el); var s=getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent='Selected'; }
+    try{
+      navigator.clipboard.writeText(text).then(function(){ btn.textContent='Copied'; setTimeout(function(){btn.textContent='Copy'},1600); }, selectIt);
+    }catch(e){ selectIt(); }
+  });
+});
+</script>
+
+</body></html>
